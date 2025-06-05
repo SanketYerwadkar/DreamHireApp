@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile</title>
+  <link rel="stylesheet" href="styles.css">
+  <script>
+    // Simulating user authentication state (replace with actual backend logic)
+    const isLoggedIn = true; // Change dynamically based on authentication
+    const userName = ""; // Replace with actual user data
+    const userEmail = ""; // Replace with actual user email
+    // const userRole = ""; // Replace with actual user role
+  </script>
+</head>
+<body>
+  <header>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <nav>
+      <div class="logo">
+        <img src="images/DreamHIrelogo.png" alt="DreamHire Logo" class="logo-img" />
+      </div>
+      
+      <diV style="background: url('images/55448.png') no-repeat center center/cover; border-radius: 10px;">
+        <ul class="nav-links" id="nav-links">
+          <!-- Navigation Links with Icons -->
+          <li><a href="index.html" class="active"><i class="fas fa-home"></i> Home</a></li>
+          <li><a href="job-search.html"><i class="fas fa-briefcase"></i> Job Search</a></li>
+          <li><a href="view-applications.html"><i class="fas fa-file-alt"></i> View Applications</a></li>
+        </ul>
+        
+    </diV>
+    </nav>
+  </header>
+
+  <!-- JavaScript for Conditional Navigation -->
+  <script>
+    const navLinks = document.getElementById("nav-links");
+
+    if (isLoggedIn) {
+      navLinks.innerHTML += `
+        <li><a href="profile.html">Profile (${userName})</a></li>
+        <li><a href="#" onclick="handleLogout()">Logout</a></li>
+      `;
+    } else {
+      navLinks.innerHTML += `
+        <li><a style="background-color: #20c997;  padding: 20px;  color:white" href="login.html">Get Started</a></li>
+      `;
+    }
+
+          function handleLogout() {
+            alert("You have been logged out.");
+            // Simulate logout process (e.g., clear authentication tokens)
+            // Redirect to the home page or login page
+            window.location.href = "index.html";
+          }
+        </script>
+      </ul>
+    </nav>
+  </header>
+
+  <h1 id="profileTitle">Profile</h1>
+  <div id="profileData">
+    <p><strong>Name:</strong> <span id="profileName"></span></p>
+    <p><strong>Email:</strong> <span id="profileEmail"></span></p>
+    <p><strong>Role:</strong> <span id="profileRole"></span></p>
+  </div>
+
+  <form id="updateProfileForm">
+    <label for="update-name">Update Name:</label>
+    <input type="text" id="update-name" name="name" autocomplete="username">
+
+    <label for="update-email">Update Email:</label>
+    <input type="email" id="update-email" placeholder="Update Email" autocomplete="email">
+
+    <label for="update-password">Update Password:</label>
+    <input type="password" id="update-password" name="password" autocomplete="new-password">
+
+    <button type="submit">Update Profile</button>
+  </form>
+
+  <button id="deleteAccount">Delete Account</button>
+
+  <script>
+    const userRole = "job-seeker"; // Example role; replace dynamically as needed
+    const apiUrl = "http://localhost:3000"; // Replace with actual backend URL
+  
+    document.addEventListener("DOMContentLoaded", () => {
+      // Dynamically populate profile data
+      document.getElementById("profileName").textContent = userName;
+      document.getElementById("profileEmail").textContent = userEmail;
+      document.getElementById("profileRole").textContent = userRole;
+  
+      // Role-specific navigation
+      const navLinks = document.getElementById("nav-links");
+      if (userRole === "employer") {
+        navLinks.innerHTML += `<li><a href="post-job.html">Post Job</a></li>`;
+      }
+  
+      // Update Profile
+      document.getElementById("updateProfileForm").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const updatedName = document.getElementById("update-name").value;
+        const updatedEmail = document.getElementById("update-email").value;
+        const updatedPassword = document.getElementById("update-password").value;
+  
+        try {
+          const response = await fetch(`${apiUrl}/api/profile/update-profile`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ updatedName, updatedEmail, updatedPassword }),
+          });
+  
+          if (response.ok) {
+            alert("Profile updated successfully!");
+            window.location.reload();
+          } else {
+            const error = await response.json();
+            alert(`Error updating profile: ${error.message}`);
+          }
+        } catch (error) {
+          console.error("Profile update error:", error);
+          alert("Failed to update profile. Please try again.");
+        }
+      });
+  
+      // Delete Account
+      document.getElementById("deleteAccount").addEventListener("click", async () => {
+        if (confirm("Are you sure you want to delete your account? This action cannot be undone.")) {
+          try {
+            const response = await fetch(`${apiUrl}/api/profile/delete-account`, { method: "DELETE" });
+            if (response.ok) {
+              alert("Account deleted successfully.");
+              window.location.href = "index.html";
+            } else {
+              alert("Failed to delete account. Please try again.");
+            }
+          } catch (error) {
+            console.error("Account deletion error:", error);
+          }
+        }
+      });
+    });
+  </script>
+  
+
+  <script src="script.js"></script>
+</body>
+</html>

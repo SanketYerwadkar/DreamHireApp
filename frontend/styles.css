@@ -1,0 +1,1256 @@
+/* Global Styles */
+*{
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-image: linear-gradient(-225deg, #5D9FFF 0%, #B8DCFF 48%, #6BBBFF 100%);
+  line-height: 1.6;
+}
+.logo-img {
+  height: 70px;          /* Adjust as needed */
+  border-radius: 4px;    /* Rounded corners */
+}
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+
+a {
+  text-decoration: none;
+  color: #333; /* Darker text color */
+}
+
+a:hover, a:focus {
+  color: #f39c12; /* Gold for hover */
+  outline: none;
+}
+
+/* Header Section */
+header {
+  background-color:#FBFBFB; /* Darker grey for professionalism */
+  color: black;
+  padding: 20px 10px;
+  
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 15px;
+  
+}
+
+.nav-links li {
+  display: inline;
+}
+
+.nav-links a {
+  color: white;
+  font-size: 19px;
+  padding: 5px 10px;
+}
+
+.nav-links a:hover {
+  background-color: white; /* Gold background on hover */
+  border-radius: 5px;
+  color: black;
+}
+
+/* Hero Section (Home Page) */
+.hero {
+  background: radial-gradient(circle,rgba(238, 174, 202, 1) 0%, rgba(148, 187, 233, 1) 100%); /* Dark blue background for the hero */
+  background: url('images/indexhome.png') no-repeat center center/cover;
+  color: black;
+  text-align: center;
+  padding: 100px 20px;
+}
+
+.hero h2 {
+  font-size: 3.5rem;
+  margin-bottom: 10px;
+}
+
+.hero p {
+  font-size: 1.2rem; /* Keeps your original font size */
+  font-weight: 300; /* Lighter weight for a more refined and modern look */
+  color: rgba(255, 255, 255, 0.9); /* Soft white with slightly less opacity for elegance */
+  text-align: center; /* Centers the paragraph */
+  margin-top: 10px; /* Adds more space between the heading and the paragraph */
+  max-width: 700px; /* Wider width for more spacious appearance */
+  margin-left: auto;
+  margin-right: auto; /* Centers the paragraph block */
+  line-height: 1.8; /* Better line height for readability */
+  
+}
+
+
+.cta-btn {
+  background-color: white; /* Gold button background */
+  color: black; /* White text */
+  padding: 15px 30px;
+  text-decoration: none;
+  font-size: 18px;
+ 
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+  
+}
+
+.cta-btn:hover {
+  color:white; /* White text */
+  background-color: #20c997; /* Darker gold for hover */
+  border: 3px solid white;
+}
+
+/* Job Search Section */
+.search-section {
+  text-align: center;
+  padding: 60px 20px;
+  background-image: url('images/Sweet\ Morning.jpg');
+  background-position: center;
+  background-size: cover; /* Ensure the image covers the entire section */
+  background-repeat: no-repeat; /* Prevent repeating the image */
+  font-family: 'Segoe UI', sans-serif;
+}
+
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
+
+.search-section h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.8rem;
+  margin-bottom: 30px;
+  color: #393E46;
+ 
+
+}
+
+
+
+
+.search-form {
+  background: rgba(255, 255, 255, 0.2); /* Glass effect */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(15px);
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+}
+
+.search-form input,
+.search-form select {
+  padding: 12px 20px; /* Adjust padding to match button height */
+  font-size: 16px;
+  width: 220px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background-color: white;
+  color: #000;
+  transition: all 0.3s ease;
+  height: 44px; /* Ensure consistent height */
+}
+
+.search-form input:focus,
+.search-form select:focus {
+  outline: none;
+  border-color: black; /* Focus effect */
+  background-color: #f1f1f1; /* Light background on focus */
+}
+
+.search-form button {
+  padding: 12px 20px; /* Adjusted padding to match input height */
+  background-color: #20c997;
+  color: white;
+  font-size: 17px;
+  border-radius: 10px;
+  cursor: pointer;
+  border: none;
+  height: 44px; /* Match the height of inputs and select */
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease, transform 0.2s;
+}
+
+.search-form button:hover {
+  background-color: green;
+  transform: translateY(-2px);
+}
+
+
+#error-message {
+  color: red;
+  font-weight: bold;
+  margin-top: 15px;
+}
+
+
+/* Job Listings Section */
+.job-listings {
+  padding: 40px 20px;
+  background-image: url('images/54530\ \(1\).png');
+  max-width: 1400px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.job-listings h2 {
+  font-size: 2.5rem;
+  margin-bottom: 40px;
+  color: white;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: 14px 28px;
+  border-radius: 12px;
+  display: inline-block;
+  font-family: 'Montserrat', sans-serif;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+}
+
+/* Grid Layout for Job List */
+.job-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 25px;
+  justify-items: center;
+}
+
+/* Job Card Style job search result */
+.job-item {
+  background: linear-gradient(145deg, #ffffff, #f9f9f9);
+  border-radius: 15px;
+  padding: 30px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+  text-align: left;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  background-color: #ffffff;
+}
+
+.job-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 5px;
+  background: #20c997;
+  border-radius: 15px 0 0 15px;
+}
+
+.job-item:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.15);
+  background: linear-gradient(145deg, #f9f9f9, #ffffff);
+}
+
+.job-item h3 {
+  font-size: 20px;
+  margin-bottom: 16px;
+ 
+  color: black;
+  padding: 10px 20px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.1); /* translucent background */
+  backdrop-filter: blur(8px); /* glass blur effect */
+  -webkit-backdrop-filter: blur(8px); /* Safari support */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+
+.job-item p {
+  font-size: 1.1rem;
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+
+.job-item a {
+  margin-top: auto;
+  display: inline-block;
+  padding: 12px 20px;
+  background-color: #20c997;
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  font-size: 1.1rem;
+  text-align: center;
+}
+
+.job-item a:hover {
+  background-color: #17a589;
+  transform: translateY(-4px);
+}
+
+.job-item .job-details {
+  margin-bottom: 20px;
+}
+
+.job-item .job-details p {
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.job-item .job-details .salary {
+  font-weight: bold;
+  color: #1a1a1a;
+}
+
+.job-item .job-details .location {
+  color: #007bff;
+}
+
+.job-item .job-details .salary,
+.job-item .job-details .location {
+  font-size: 1.1rem;
+}
+
+.job-item .job-details span {
+  color: #20c997;
+  font-weight: 500;
+}
+
+
+/* Features Section */
+.features {
+  display: flex;
+  justify-content: space-between;
+  padding: 40px 20px;
+  
+  flex-wrap: wrap;
+  background-color: #E2E0C8;/* Transparent white background */
+  backdrop-filter: blur(10px); /* Apply blur to the background */
+  border-radius: 10px; /* Optional: rounded corners */
+  padding: 20px; /* Adjust padding as per your needs */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional: shadow for depth */
+  color: #fff; /* Text color */
+}
+
+.features h3 {
+  width: 100%;
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  color: white;
+ background-color: white; /* Transparent white background */
+  backdrop-filter: blur(10px); /* Apply blur to the background */
+  border-radius: 10px; /* Optional: rounded corners */
+  padding: 20px; /* Adjust padding as per your needs */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional: shadow for depth */
+  
+}
+
+.feature-item {
+  text-align: center;
+  padding: 20px;
+  width: 30%;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+  margin-bottom: 30px;
+}
+
+.feature-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.feature-item h4 {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  color: #0056b3; /* Professional color for the title */
+}
+
+.feature-item p {
+  font-size: 1rem;
+  color: #555;
+}
+
+/* Testimonials Section */
+.testimonials {
+  padding: 40px 20px;
+  text-align: center;
+  background-image: linear-gradient(to right, #74ebd5 0%, #9face6 100%);
+}
+
+.testimonials-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.testimonial-card {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 300px;
+  transition: transform 0.3s;
+}
+
+.testimonial-card:hover {
+  transform: translateY(-5px);
+}
+
+.testimonial-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 10px;
+}
+
+.profile-img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #007BFF;
+}
+
+.job-title {
+  margin: 0;
+  font-size: 14px;
+  color: #666;
+}
+
+.testimonial-text {
+  font-style: italic;
+  margin-top: 15px;
+}
+
+
+/* Call to Action Section */
+.call-to-action {
+  background-image: linear-gradient(120deg, #f6d365 0%, #fda085 100%); /* Dark blue for consistency */
+  color: white;
+  text-align: center;
+  padding: 50px 20px;
+}
+
+.call-to-action h3 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+.call-to-action .cta-btn {
+  background-color: white;
+  color: black;
+  padding: 15px 30px;
+  font-size: 18px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.call-to-action .cta-btn:hover {
+  background-color: white; /* Darker gold for hover */
+  color: black;
+}
+
+/* Footer Section */
+/* footer {
+  background-color: #212529; 
+  color: white;
+  text-align: center;
+  padding: 20px 0;
+}
+
+footer p {
+  margin: 0;
+}
+
+.social-icons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding-top: 20px;
+}
+
+.social-icons img {
+  width: 40px;
+  height: 40px;
+  transition: transform 0.3s;
+}
+
+.social-icons img:hover {
+  transform: scale(1.1); 
+} */
+
+footer {
+  padding: 40px 20px;
+  font-size: 14px;
+  color: white;
+  background-color: #222831;
+  text-align: center;
+}
+
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+
+.footer-left,
+.footer-middle,
+.footer-right {
+  width: 100%;
+  max-width: 600px;
+}
+
+.footer-left p,
+.footer-middle h4,
+.footer-middle ul,
+.footer-bottom {
+  margin: 10px 0;
+}
+
+.footer-middle ul {
+  list-style-type: none;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap; /* allows wrapping on smaller screens */
+  gap: 20px; /* space between links */
+}
+
+.footer-middle ul li {
+  margin: 0; /* remove bottom margin since links are horizontal */
+}
+
+
+.footer-middle ul li a,
+.footer-bottom a {
+  text-decoration: none;
+  color: black;
+}
+
+.footer-middle ul li a:hover,
+.footer-bottom a:hover {
+  text-decoration: underline;
+}
+
+.footer-bottom {
+  margin-top: 30px;
+  font-size: 12px;
+}
+
+
+
+/* Responsive Design for Job Search Page */
+@media (max-width: 768px) {
+  /* For smaller devices, adjust the layout */
+  
+  .nav-links {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .search-section h2 {
+    font-size: 2rem;
+  }
+
+  .search-form {
+    flex-direction: column;
+    gap: 15px; /* Stack form elements */
+  }
+
+  .search-form input,
+  .search-form select,
+  .search-form button {
+    width: 100%; /* Make form inputs full width on smaller screens */
+    max-width: 400px; /* Optional: Limit width for better appearance */
+    margin-bottom: 10px; /* Add space between elements */
+  }
+
+  .job-list {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .job-item {
+    width: 80%; /* Make job items wider on smaller screens */
+    margin-bottom: 20px;
+  }
+
+  .job-listings {
+    padding: 30px 10px; /* Adjust padding for smaller screens */
+  }
+}
+
+@media (max-width: 480px) {
+  .hero h2 {
+    font-size: 2.2rem;
+  }
+
+  .hero p {
+    font-size: 1rem;
+  }
+  
+  .features {
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  .feature-item {
+    width: 100%;
+  }
+
+  .search-section h2 {
+    font-size: 1.8rem;
+  }
+
+  .job-item {
+    width: 90%; /* Occupy most of the width for small screens */
+  }
+
+  .cta-btn {
+    padding: 12px 25px;
+  }
+}
+/* Job Detail Section */
+.job-detail {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  margin: 30px auto;
+  max-width: 900px;
+}
+
+.job-detail h2 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+.job-detail p {
+  font-size: 1.1rem;
+  margin-bottom: 15px;
+}
+
+.job-detail form {
+  margin-top: 20px;
+}
+
+.job-detail label {
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+}
+
+.job-detail textarea,
+.job-detail input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.job-detail button {
+  background-color: #f39c12;
+  color: white;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.job-detail button:hover {
+  background-color: #e67e22;
+}
+
+/* Responsive for smaller screens */
+@media (max-width: 768px) {
+  .job-detail {
+    padding: 20px;
+  }
+  .job-detail h2 {
+    font-size: 2rem;
+  }
+  .job-detail p {
+    font-size: 1rem;
+  }
+}
+/* Job Listings Section */
+.job-listings {
+  padding: 50px 20px;
+  background-color: #f9f9f9;
+}
+
+.job-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center; /* Ensure items are centered */
+  max-width: 1200px; /* Add a maximum width to control layout */
+  margin: 0 auto; /* Center the container */
+}
+
+.job-item {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+  width: calc(33.333% - 20px); /* Adjust for 3 per row */
+  box-sizing: border-box; /* Ensure padding doesn't affect width */
+  min-width: 250px; /* Ensure a minimum size for small screens */
+}
+
+.job-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 768px) {
+  .job-item {
+    width: calc(50% - 20px); /* Two items per row for medium screens */
+  }
+}
+
+@media (max-width: 480px) {
+  .job-item {
+    width: 100%; /* Stack items for small screens */
+  }
+}
+
+.hidden {
+  display: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* register page */
+#regbody {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f9;
+  color: #333;
+}
+
+#regbody h1 {
+  text-align: center;
+  margin: 20px 0;
+  color: #444;
+}
+
+/* Register Form with Glass Effect */
+form#registerForm {
+  max-width: 500px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.6); /* White background with transparency */
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px); /* Creates the glass effect */
+  -webkit-backdrop-filter: blur(10px); /* For Safari */
+  border: 1px solid rgba(255, 255, 255, 0.5); /* Optional: Adds a subtle border */
+}
+
+
+/* Form Labels */
+form#registerForm label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  
+  color: #555;
+}
+
+/* Form Inputs and Select */
+form#registerForm input,
+form#registerForm select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 14px;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #333;
+}
+
+
+/* Submit Button */
+form#registerForm button {
+  background-color: #28a745; /* Green */
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  width: 100%;
+}
+
+form#registerForm button:hover {
+  background-color: #218838; /* Darker green on hover */
+}
+
+
+#regbody p {
+  text-align: center;
+  margin-top: 20px;
+}
+
+#loginLink {
+  color: #007bff;
+  text-decoration: none;
+}
+
+#loginLink:hover {
+  text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  form#registerForm {
+    width: 90%;
+  }
+}
+
+/* login page */
+/* Body background */
+#loginbody {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  background-color: #f0f4f8;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  flex-direction: column; /* Ensures children stack vertically */
+}
+
+/* Heading */
+#loginTitle {
+  font-size: 2.5em;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* Form container */
+form#loginForm {
+  background: rgba(255, 255, 255, 0.3); /* Transparent white background */
+  padding: 30px 40px;
+  border-radius: 8px;
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 420px;
+  box-sizing: border-box;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  backdrop-filter: blur(10px); /* Glass blur effect */
+  -webkit-backdrop-filter: blur(10px); /* Safari compatibility */
+}
+
+form#loginForm:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Form labels */
+form#loginForm label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: #555;
+}
+
+/* Form inputs */
+form#loginForm input {
+  width: 100%;
+  padding: 12px 16px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: border-color 0.3s ease;
+}
+
+form#loginForm input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* Submit button */
+form#loginForm button {
+  background-color: #28a745; /* Green background */
+  color: #ffffff;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  width: 100%;
+  transition: background-color 0.3s ease;
+}
+
+form#loginForm button:hover {
+  background-color: #218838; /* Darker green on hover */
+}
+
+/* Login paragraph */
+#logp {
+  text-align: center;
+  color: #333;
+  margin-top: 20px;
+}
+
+#logp a {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+#logp a:hover {
+  text-decoration: underline;
+}
+
+
+/* profile page */
+
+#profileTitle {
+  text-align: center;
+  margin: 20px 0;
+  color: #444;
+}
+
+/* Profile Data Section */
+#profileData {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#profileData p {
+  margin: 10px 0;
+  font-size: 16px;
+}
+
+/* Form Styles */
+form#updateProfileForm {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+form#updateProfileForm label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #555;
+}
+
+form#updateProfileForm input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+form#updateProfileForm button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  width: 100%;
+}
+
+form#updateProfileForm button:hover {
+  background-color: #0056b3;
+}
+
+/* Delete Account Button */
+#deleteAccount {
+  display: block;
+  width: 600px;
+  max-width: 100%;
+  margin: 20px auto;
+  padding: 10px;
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+#deleteAccount:hover {
+  background-color: #e63939;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  #profileData, form#updateProfileForm, #deleteAccount {
+    width: 90%;
+  }
+
+  nav ul {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+/* post-job */
+
+.post-job-section {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.1); /* Transparent background */
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2); /* Deeper shadow for glass feel */
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px); /* For Safari support */
+  border: 1px solid rgba(255, 255, 255, 0.3); /* Optional border */
+}
+
+
+.post-job-section h2 {
+  text-align: center;
+  color: #0d6efd; /* Brighter Blue */
+  margin-bottom: 1.5rem;
+  font-size: 2rem;
+  font-weight: 700;
+  text-shadow: 1px 1px 2px rgba(0, 123, 255, 0.2);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.post-job-section label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #333; /* Darker Text for Contrast */
+}
+
+.post-job-section input,
+.post-job-section select,
+.post-job-section textarea {
+  width: 100%;
+  padding: 0.8rem;
+  margin-bottom: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.3); /* Soft border */
+  border-radius: 8px;
+  font-size: 1rem;
+  background-color: white; /* Translucent white */
+  backdrop-filter: blur(8px); /* Glass blur */
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  color: #333;
+}
+
+
+.post-job-section input:focus, select:focus, textarea:focus {
+  border-color: #007bff; /* Highlight Blue on Focus */
+  outline: none;
+  background-color: #e3f2fd; /* Lighter Blue on Focus */
+}
+
+.post-job-section button {
+  display: block;
+  width: 100%;
+  padding: 0.8rem;
+  background-color: #28a745; /* Primary Green Button */
+  color: #fff;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.post-job-section button:hover {
+  background-color: #218838; /* Darker green on hover */
+}
+
+/* Response Message */
+#response-message {
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: #d1ecf1; /* Light Teal for Success */
+  color: #0c5460; /* Dark Teal Text */
+  border: 1px solid #bee5eb; /* Border for Success Message */
+  border-radius: 4px;
+  text-align: center;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .post-job-section {
+    margin: 1rem;
+    padding: 1rem;
+  }
+}
+
+/* View Applications Page */
+.view-search-section {
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.view-search-section input {
+  padding: 10px;
+  width: 60%;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 5px;
+  background: white;
+  color: #000;
+  backdrop-filter: blur(5px);
+}
+
+.view-search-section button {
+  padding: 10px 20px;
+  background-color: rgba(62, 75, 91, 0.85);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.view-search-section button:hover {
+  background-color: rgba(45, 57, 74, 0.9);
+}
+.bar {
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  padding: 40px 20px;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  margin: 0 auto;
+ 
+  text-align: center;
+  color: black; /* Ensure text is visible */
+}
+
+/* Optional: Full-page center alignment */
+
+.view-applications-section {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 40px 20px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  margin: 30px auto;
+  max-width: 900px;
+}
+
+.application-item {
+  background:white;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.application-item h3 {
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+  color: #222;
+}
+
+.application-item p {
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.application-item button {
+  background-color: rgba(243, 156, 18, 0.9);
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.application-item button:hover {
+  background-color: rgba(230, 126, 34, 1);
+}
+
+.read-more-link {
+  color: #3e4b5b;
+  text-decoration: none;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.read-more-link:hover {
+  text-decoration: underline;
+}
+
+.Download {
+  background-color: #20c997;
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+
+/* ********************footer part  */
+

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>View Applications - DreamHire</title>
+  <link rel="stylesheet" href="styles.css">
+  
+</head>
+
+<body>
+  <!-- Header -->
+  <header>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <nav>
+      <div class="logo">
+        <img src="images/DreamHIrelogo.png" alt="DreamHire Logo" class="logo-img" />
+      </div>
+      <diV style="background: url('images/55448.png') no-repeat center center/cover; border-radius: 10px;">
+        <ul class="nav-links" id="nav-links">
+          <!-- Navigation Links with Icons -->
+          <li><a href="index.html" class="active"><i class="fas fa-home"></i> Home</a></li>
+          <li><a href="job-search.html"><i class="fas fa-briefcase"></i> Job Search</a></li>
+          <li><a href="post-job.html"><i class="fas fa-file-alt"></i> For Employers</a></li>
+          <li><a style="background-color: #20c997;  padding: 21px; border-radius: 4px; color:white" href="login.html">Get Started</a></li>
+        </ul>
+
+
+      <!-- <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="job-search.html" class="active">Job Search</a></li>
+        <li><a href="post-job.html">For Employers</a></li>
+        <li><a href="login.html">Sign In</a></li>
+      </ul> -->
+    </nav>
+  </header>
+
+  <!-- Search Filter Section -->
+  <section class="view-search-section">
+    <input type="text" id="search" placeholder="Search by Cover Letter..." oninput="filterApplications()">
+    <button onclick="filterApplications()">Search</button>
+  </section>
+
+  <!-- Applications Section -->
+  <section class="applications-section">
+    <h2 class="bar">Submitted Applications</h2>
+    <div id="applications-container">
+      <!-- Applications will be dynamically added here -->
+      <p>Loading applications...</p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2024 DreamHire Job Discovery Platform. All rights reserved.</p>
+  </footer>
+
+  <!-- JavaScript -->
+  <script src="https://cdn.jsdelivr.net/npm/jwt-decode/build/jwt-decode.min.js" defer></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      fetchApplications();
+    });
+
+    // Fetch and display applications
+    function fetchApplications() {
+      const applicationsContainer = document.getElementById('applications-container');
+      applicationsContainer.innerHTML = '<p>Loading...</p>'; // Show loading indicator
+
+      fetch('http://localhost:3000/api/jobs/applications')
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.success && Array.isArray(data.data)) {
+            applicationsContainer.innerHTML = ''; // Clear loading indicator
+
+            if (data.data.length === 0) {
+              applicationsContainer.innerHTML = '<p>No applications found.</p>';
+              return;
+            }
+
+            data.data.forEach((app) => {
+              const truncatedCoverLetter = app.coverLetter.length > 100
+                ? app.coverLetter.substring(0, 100).replace(/[\n\r]/g, ' ')
+                : app.coverLetter;
+
+              const appElement = document.createElement('div');
+              appElement.classList.add('application-item');
+              appElement.setAttribute('data-id', app._id); // Add a data attribute for dynamic updates
+              appElement.innerHTML = `
+                <h3>Application ID: ${app._id}</h3>
+                <p>
+                  <strong>Cover Letter:</strong>
+                  <span class="cover-letter-summary">${truncatedCoverLetter}</span>
+                  ${app.coverLetter.length > 100 ? `<a href="#" class="read-more-link">Read more</a>` : ''}
+                </p>
+                <p><strong>Resume:</strong> <a href="http://localhost:3000/uploads/${app.resumeFilename}" class="Download" target="_blank">Download Resume</a></p>
+                <p><strong>Applied At:</strong> ${new Date(app.appliedAt).toLocaleString()}</p>
+                <p class="reviewed-status"><strong>Reviewed:</strong> ${app.reviewed ? 'Yes' : 'No'}</p>
+                <button onclick="markAsReviewed('${app._id}')">
+                  ${app.reviewed ? 'Reviewed' : 'Mark as Reviewed'}
+                </button>
+              `;
+
+              // Add event listener for "Read more" if necessary
+              const readMoreLink = appElement.querySelector('.read-more-link');
+              if (readMoreLink) {
+                readMoreLink.addEventListener('click', (event) => {
+                  event.preventDefault(); // Prevent default link behavior
+                  const coverLetterSummary = appElement.querySelector('.cover-letter-summary');
+
+                  if (readMoreLink.textContent === 'Read more') {
+                    coverLetterSummary.textContent = app.coverLetter.replace(/[\n\r]/g, ' '); // Show full cover letter
+                    readMoreLink.textContent = 'Show less'; // Change link to "Show less"
+                  } else {
+                    coverLetterSummary.textContent = truncatedCoverLetter; // Show truncated text
+                    readMoreLink.textContent = 'Read more'; // Change link back to "Read more"
+                  }
+                });
+              }
+
+              applicationsContainer.appendChild(appElement);
+            });
+          } else {
+            applicationsContainer.innerHTML = '<p>No applications found or invalid response format.</p>';
+          }
+        })
+        .catch((error) => {
+          console.error('Error fetching applications:', error);
+          applicationsContainer.innerHTML = '<p>Failed to load applications. Please try again later.</p>';
+        });
+    }
+
+    // Mark application as reviewed
+    function markAsReviewed(applicationId) {
+      fetch(`http://localhost:3000/api/jobs/applications/${applicationId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.success) {
+            const applicationItem = document.querySelector(`[data-id="${applicationId}"]`);
+            if (applicationItem) {
+              applicationItem.querySelector('.reviewed-status').innerHTML = '<strong>Reviewed:</strong> Yes';
+              const button = applicationItem.querySelector('button');
+              button.textContent = 'Reviewed';
+              button.disabled = true;
+            } else {
+              fetchApplications(); // Fallback to refreshing the list
+            }
+          } else {
+            alert('Failed to update application.');
+          }
+        })
+        .catch((error) => console.error('Error updating application:', error));
+    }
+
+    // Filter applications by cover letter
+    function filterApplications() {
+      const searchQuery = document.getElementById('search').value.toLowerCase();
+      const applications = document.querySelectorAll('.application-item');
+
+      applications.forEach((application) => {
+        const strongTag = application.querySelector('p strong');
+        let coverLetter = '';
+        if (strongTag && strongTag.textContent.includes('Cover Letter')) {
+          coverLetter = strongTag.parentNode.textContent.replace('Cover Letter:', '').trim().toLowerCase();
+        }
+        
+        if (coverLetter.includes(searchQuery)) {
+          application.style.display = 'block';
+        } else {
+          application.style.display = 'none';
+        }
+      });
+    }
+  </script>
+</body>
+
+</html>

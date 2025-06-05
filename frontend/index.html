@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DreamHire Job Discovery Platform</title>
+  <link rel="stylesheet" href="styles.css"> <!-- Link to external CSS -->
+  <link rel="icon" href="data:,">
+  <script>
+    // Simulating user authentication state (replace with actual backend logic)
+    const isLoggedIn = false; // Change dynamically based on authentication
+    const userName = "John Doe"; // Replace with actual user data
+  </script>
+</head>
+
+<body>
+  <!-- Header Section: Navigation Bar -->
+  <header>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <nav>
+      <div class="logo">
+        <img src="images/DreamHIrelogo.png" alt="DreamHire Logo" class="logo-img" />
+      </div>
+      
+      <diV style="background: url('images/55448.png') no-repeat center center/cover; border-radius: 10px;">
+        <ul class="nav-links" id="nav-links">
+          <!-- Navigation Links with Icons -->
+          <li><a href="index.html" class="active"><i class="fas fa-home"></i> Home</a></li>
+          <li><a href="job-search.html"><i class="fas fa-briefcase"></i> Job Search</a></li>
+          <li><a href="view-applications.html"><i class="fas fa-file-alt"></i> View Applications</a></li>
+        </ul>
+        
+    </diV>
+    </nav>
+  </header>
+
+  <!-- JavaScript for Conditional Navigation -->
+  <script>
+    const navLinks = document.getElementById("nav-links");
+
+    if (isLoggedIn) {
+      navLinks.innerHTML += `
+        <li><a href="profile.html">Profile (${userName})</a></li>
+        <li><a href="#" onclick="handleLogout()">Logout</a></li>
+      `;
+    } else {
+      navLinks.innerHTML += `
+        <li><a style="background-color: #20c997;  padding: 20px;  color:white" href="login.html">Get Started</a></li>
+      `;
+    }
+
+    function handleLogout() { 
+      alert("You have been logged out.");
+      // Simulate logout process (e.g., clear authentication tokens)
+      // Redirect to the home page or login page
+      window.location.href = "index.html";
+    }
+  </script>
+
+  <!-- Hero Section: Main Introductory Area -->
+  <section class="hero">
+    <div class="hero-content">
+      <h2 >"Discover Jobs You’ll Love  Powered by DreamHire."</h2>
+      <p>"We Match You with the Jobs You Were Made For."</p>
+      <!-- Call to Action Button -->
+      <a href="job-search.html" class="cta-btn">Start Searching</a>
+    </div>
+  </section>
+
+  <!-- Why Choose DreamHire Section -->
+  <section class="features">
+    <h3 style=" background: url('images/indexhome.png') no-repeat center center/cover;"  >Why Choose DreamHire?</h3>
+    <div style="background-color:white" class="feature-item">
+      <h4>🎯 Smart Job Recommendations</h4>
+      <p>Our AI-powered system learns what you love and connects you with opportunities that truly fit — no more endless searching.</p>
+    </div>
+    <div style="background-color:white"" class="feature-item">
+      <h4>🚀 Effortless Job Matching</h4>
+      <p>Our advanced algorithms understand your skills and preferences, delivering job suggestions tailored just for you—no more endless scrolling.</p>
+    </div>
+    <div style="background-color:white;" class="feature-item">
+      <h4>🌍 Relied Upon by Thousands</h4>
+      <p>Be part of a trusted platform used by professionals and employers across the globe to find the perfect job match.</p>
+    </div>
+    <div style="background-color:white" class="feature-item">
+      <h4>🔒 Secure & Private Job Search</h4>
+      <p>Your data stays safe with us. DreamHire protects your information with enterprise-grade security and respects your privacy every step of the way.</p>
+    </div>
+    <div style="background-color:white" class="feature-item">
+      <h4> 📈 Career Growth Insights</h4>
+      <p>Get personalized tips and insights to grow your career. From resume tips to upskilling paths, we help you level up faster.</p>
+    </div>
+    <div style="background-color:white" class="feature-item">
+      <h4>🤝 Human + AI Support</h4>
+      <p>Get the best of both worlds: AI-driven recommendations with human support when you need it. Our team is always here to help guide your job search.</p>
+    </div>
+  </section>
+
+  <section class="testimonials">
+    <h3 style="font-size: 40px; background: white; border-radius: 7px; padding: 10px;">💬 What Our Users Are Saying</h3>
+    <div class="testimonials-container">
+      <div class="testimonial-card">
+        <div class="testimonial-header" style="background: url('images/54388.png'); border-radius: 5px;">
+          <img src="images/Back To Earth (1).jpg" alt="Jane Doe" class="profile-img" />
+          <div>
+            <h2>Jane Doe</h2>
+            <p class="job-title">Marketing Specialist</p>
+          </div>
+        </div>
+        <p class="testimonial-text">“DreamHire helped me land my dream job in just a week!”</p>
+      </div>
+  
+      <div class="testimonial-card">
+        <div class="testimonial-header" style="background: url('images/54388.png'); border-radius: 5px;">
+          <img src="images/55448.png" alt="John Smith" class="profile-img" />
+          <div>
+            <h2>John Smith</h2>
+            <p class="job-title">Software Engineer</p>
+          </div>
+        </div>
+        <p class="testimonial-text">“The AI recommendations are spot-on. Highly recommended!”</p>
+      </div>
+    </div>
+    
+  </section>
+  
+
+  <section  class="call-to-action">
+    <h3>Ready to Take the Next Step?</h3>
+    <a href="job-search.html" class="cta-btn">Get Started Now</a>
+  </section>
+
+  <footer style="background-color: #222831; font-size: 16px; ">
+  <div class="footer-content">
+    <div class="footer-left">
+      <p>&copy; 2025 DreamHire Job Discovery Platform. All rights reserved.</p>
+      <p>Providing personalized job recommendations for job seekers worldwide.</p>
+    </div>
+    <div class="footer-middle">
+      <h4>Quick Links</h4>
+      <ul>
+       <button> <li><a href="/about-us">About Us</a></li> </button>
+        <button><li><a href="/services">Services</a></li></button>
+        <button><li><a href="/contact">Contact</a></li></button>
+        <button><li><a href="/privacy-policy">Privacy Policy</a></li></button>
+        <button><li><a href="/terms-of-service">Terms of Service</a></li></button>
+      </ul>
+    </div>
+    
+  <div class="footer-bottom">
+    <p>Contact Us: <a  style="color: white;" href="mailto:info@dreamhire.com">info@dreamhire.com</a></p>
+    
+  </div>
+</footer>
+
+
+</body>
+
+</html>

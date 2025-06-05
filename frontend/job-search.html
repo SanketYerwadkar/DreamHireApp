@@ -1,0 +1,367 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Job Search - DreamHire</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/jwt-decode/build/jwt-decode.min.js" defer></script>
+  <style>
+    /* Inline styles for enhancements */
+    .loading {
+      text-align: center;
+      font-size: 1.2rem;
+      color: #666;
+    }
+
+    .error {
+      text-align: center;
+      color: red;
+      margin-top: 20px;
+    }
+
+    .job-item {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      padding: 15px;
+      margin: 10px 0;
+    }
+
+    .job-item h3 {
+      margin-top: 0;
+    }
+
+    .pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 20px;
+    }
+
+    .pagination button {
+      padding: 10px;
+      margin: 5px;
+      border: none;
+      background: #007bff ;
+      color: white;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    .pagination button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Header Section: Navigation Bar -->
+  <header>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <nav>
+      <div class="logo">
+        <img src="images/DreamHIrelogo.png" alt="DreamHire Logo" class="logo-img" />
+      </div>
+      <diV style="background: url('images/55448.png') no-repeat center center/cover; border-radius: 10px;">
+        <ul class="nav-links" id="nav-links">
+          <!-- Navigation Links with Icons -->
+          <li><a href="index.html" class="active"><i class="fas fa-home"></i> Home</a></li>
+          <li><a href="job-search.html"><i class="fas fa-briefcase"></i> Job Search</a></li>
+          <li><a href="post-job.html"><i class="fas fa-file-alt"></i> For Employers</a></li>
+          <li><a style="background-color: #20c997;  padding: 21px; border-radius: 4px; color:white" href="login.html">Get Started</a></li>
+        </ul>
+
+
+      <!-- <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="job-search.html" class="active">Job Search</a></li>
+        <li><a href="post-job.html">For Employers</a></li>
+        <li><a href="login.html">Sign In</a></li>
+      </ul> -->
+    </nav>
+  </header>
+
+  <!-- Job Search Section -->
+  <section class="search-section">
+    <h2>Find Your Dream Job</h2>
+    <form id="job-search-form" class="search-form">
+      <input type="text" id="job-search" placeholder="Job title or keywords" required aria-label="Job Title">
+      <input type="text" id="location-search" placeholder="Location" required aria-label="Job Location">
+      <select id="job-type" required aria-label="Job Type">
+        <option  value="">Job Type</option>
+        <option value="full-time">Full-Time</option>
+        <option value="part-time">Part-Time</option>
+        <option value="remote">Remote</option>
+        <option value="internship">Internship</option>
+      </select>
+      <button type="submit">Search Jobs</button>
+    </form>
+    <div class="error" id="error-message"></div>
+  </section>
+
+  <!-- Job Listings Section -->
+  <section class="job-listings">
+    <h2>Browse Our Latest Job Openings</h2>
+    <div id="job-list-container" class="job-list">
+      <p class="loading">Loading job listings...</p>
+    </div>
+
+    <!-- Pagination Controls -->
+    <div class="pagination">
+      <button id="prev-page" disabled>Previous</button>
+      <span id="page-info">Page 1</span>
+      <button id="next-page">Next</button>
+    </div>
+  </section>
+
+  <!-- Footer Section -->
+  <footer>
+    <p>&copy; 2024 DreamHire Job Discovery Platform. All rights reserved.</p>
+  </footer>
+
+  <!-- JavaScript -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const jobListContainer = document.getElementById('job-list-container');
+      const errorMessage = document.getElementById('error-message');
+      const prevPageBtn = document.getElementById('prev-page');
+      const nextPageBtn = document.getElementById('next-page');
+      const pageInfo = document.getElementById('page-info');
+
+      let currentPage = 1;
+      const limit = 9; // Backend pagination limit
+      let currentQueryParams = ''; // To store search query for pagination
+
+      const fetchJobs = (queryParams = '') => {
+        jobListContainer.innerHTML = '<p class="loading">Loading job listings...</p>';
+        fetch(`http://localhost:3000/api/jobs?page=${currentPage}&limit=${limit}${queryParams}`)
+          .then(response => {
+            if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+            return response.json();
+          })
+          .then(data => {
+            jobListContainer.innerHTML = '';
+            if (data.success && data.jobs.length > 0) {
+              data.jobs.forEach(job => {
+                const jobElement = document.createElement('div');
+                jobElement.classList.add('job-item');
+                jobElement.innerHTML = `
+                  <h3>${job.title}</h3>
+                  <p><strong>Company:</strong> ${job.company}</p>
+                  <p><strong>Location:</strong> ${job.location}</p>
+                  <p><strong>Salary:</strong> ${job.salary}</p>
+                  <a href="job-detail.html?jobId=${job._id}">Apply Now</a>
+                `;
+                jobListContainer.appendChild(jobElement);
+              });
+
+              // Update Pagination UI
+              pageInfo.textContent = `Page ${data.pagination.currentPage} of ${data.pagination.totalPages}`;
+              prevPageBtn.disabled = data.pagination.currentPage === 1;
+              nextPageBtn.disabled = data.pagination.currentPage >= data.pagination.totalPages;
+            } else {
+              jobListContainer.innerHTML = '<p>No jobs found for your search.</p>';
+            }
+          })
+          .catch(error => {
+            console.error('Error fetching job listings:', error);
+            jobListContainer.innerHTML = '<p class="error">Failed to load job listings. Please try again later.</p>';
+          });
+      };
+
+      // Fetch jobs on page load
+      fetchJobs();
+
+      // Fetch jobs on form submission
+      document.getElementById('job-search-form').addEventListener('submit', (event) => {
+        event.preventDefault();
+        const jobTitle = document.getElementById('job-search').value.trim();
+        const location = document.getElementById('location-search').value.trim();
+        const jobType = document.getElementById('job-type').value;
+
+        if (!jobTitle || !location || !jobType) {
+          errorMessage.textContent = 'All fields are required.';
+          return;
+        }
+        errorMessage.textContent = '';
+
+        // Prepare query params and reset page to 1
+        currentQueryParams = `&jobTitle=${jobTitle}&location=${location}&jobType=${jobType}`;
+        currentPage = 1; // Reset to first page on new search
+        fetchJobs(currentQueryParams);
+      });
+
+      // Pagination Button Events
+      prevPageBtn.addEventListener('click', () => {
+        if (currentPage > 1) {
+          currentPage--;
+          fetchJobs(currentQueryParams);
+        }
+      });
+
+      nextPageBtn.addEventListener('click', () => {
+        currentPage++;
+        fetchJobs(currentQueryParams);
+      });
+    });
+  </script>
+</body>
+
+</html>
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Job Search - DreamHire</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/jwt-decode/build/jwt-decode.min.js" defer></script>
+  <style>
+    /* Inline styles for enhancements */
+    .loading {
+      text-align: center;
+      font-size: 1.2rem;
+      color: #666;
+    }
+
+    .error {
+      text-align: center;
+      color: red;
+      margin-top: 20px;
+    }
+
+    .job-item {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      padding: 15px;
+      margin: 10px 0;
+    }
+
+    .job-item h3 {
+      margin-top: 0;
+    }
+  </style>
+</head>
+
+<body>
+  Header Section: Navigation Bar
+  <header>
+    <nav>
+      <div class="logo">
+        <h1>DreamHire</h1>
+      </div>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="job-search.html" class="active">Job Search</a></li>
+        <li><a href="post-job.html">For Employers</a></li>
+        <li><a href="login.html">Sign In</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  Job Search Section
+  <section class="search-section">
+    <h2>Find Your Dream Job</h2>
+    <form id="job-search-form" class="search-form">
+      <input type="text" id="job-search" placeholder="Job title or keywords" required aria-label="Job Title">
+      <input type="text" id="location-search" placeholder="Location" required aria-label="Job Location">
+      <select id="job-type" required aria-label="Job Type">
+        <option value="">Job Type</option>
+        <option value="full-time">Full-Time</option>
+        <option value="part-time">Part-Time</option>
+        <option value="remote">Remote</option>
+        <option value="Internship">Internship</option>
+      </select>
+      <button type="submit">Search Jobs</button>
+    </form>
+    <div class="error" id="error-message"></div>
+  </section>
+
+  Job Listings Section
+  <section class="job-listings">
+    <h2>Available Job Listings</h2>
+    <div id="job-list-container" class="job-list">
+      <p class="loading">Loading job listings...</p>
+    </div>
+  </section>
+
+  Footer Section
+  <footer>
+    <p>&copy; 2024 DreamHire Job Discovery Platform. All rights reserved.</p>
+  </footer>
+
+  JavaScript
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const jobListContainer = document.getElementById('job-list-container');
+      const errorMessage = document.getElementById('error-message');
+
+      // Function to fetch job listings
+      const fetchJobs = (queryParams = '') => {
+        jobListContainer.innerHTML = '<p class="loading">Loading job listings...</p>';
+        fetch(`http://localhost:3000/api/jobs${queryParams}`)
+          .then(response => {
+            if (!response.ok) {
+              throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+          })
+          .then(data => {
+            jobListContainer.innerHTML = '';
+            if (data.success && data.jobs.length > 0) {
+              data.jobs.forEach(job => {
+                const jobElement = document.createElement('div');
+                jobElement.classList.add('job-item');
+                jobElement.innerHTML = `
+                  <h3>${job.title}</h3>
+                  <p><strong>Company:</strong> ${job.company}</p>
+                  <p><strong>Location:</strong> ${job.location}</p>
+                  <p><strong>Salary:</strong> ${job.salary}</p>
+                  <a href="job-detail.html?jobId=${job._id}">Apply Now</a>
+                `;
+                jobListContainer.appendChild(jobElement);
+              });
+            } else {
+              jobListContainer.innerHTML = '<p>No jobs found for your search.</p>';
+            }
+          })
+          .catch(error => {
+            console.error('Error fetching job listings:', error);
+            jobListContainer.innerHTML = '<p class="error">Failed to load job listings. Please try again later.</p>';
+          });
+      };
+
+      // Fetch default jobs on page load
+      fetchJobs();
+
+      // Fetch jobs on form submission
+      document.getElementById('job-search-form').addEventListener('submit', (event) => {
+        event.preventDefault();
+        const jobTitle = document.getElementById('job-search').value.trim();
+        const location = document.getElementById('location-search').value.trim();
+        const jobType = document.getElementById('job-type').value;
+
+        // Validate inputs
+        if (!jobTitle || !location || !jobType) {
+          errorMessage.textContent = 'All fields are required.';
+          return;
+        }
+        errorMessage.textContent = '';
+
+        // Prepare query params and fetch filtered jobs
+        const queryParams = new URLSearchParams({ jobTitle, location, jobType }).toString();
+        fetchJobs(`?${queryParams}`);
+      });
+    });
+  </script>
+</body>
+
+</html> -->
+

@@ -1,0 +1,340 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Job Detail - DreamHire</title>
+  <link rel="stylesheet" href="styles.css">
+  </head>
+<body>
+  <!-- Header (Same as Home Page) -->
+  <header>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <nav>
+      <div class="logo">
+        <img src="images/DreamHIrelogo.png" alt="DreamHire Logo" class="logo-img" />
+      </div>
+      
+      <diV style="background: url('images/55448.png') no-repeat center center/cover; border-radius: 10px;">
+        <ul class="nav-links" id="nav-links">
+          <!-- Navigation Links with Icons -->
+          <li><a href="index.html" class="active"><i class="fas fa-home"></i> Home</a></li>
+          <li><a href="job-search.html"><i class="fas fa-briefcase"></i> Job Search</a></li>
+          <li><a href="view-applications.html"><i class="fas fa-file-alt"></i> View Applications</a></li>
+        </ul>
+        
+    </diV>
+    </nav>
+  </header>
+
+  <!-- Job Detail Section -->
+  <section class="job-detail">
+    <!-- Job info will be populated here dynamically -->
+    <h2 id="job-title">Loading...</h2>
+    <p><strong>Company:</strong> <span id="job-company">Loading...</span></p>
+    <p><strong>Location:</strong> <span id="job-location">Loading...</span></p>
+    <p><strong>Salary:</strong> <span id="job-salary">Loading...</span></p>
+    <p><strong>Description:</strong> <span id="job-description">Loading...</span></p>
+
+    <!-- Job Application Form -->
+    <h3>Apply for this Job</h3>
+    <form id="application-form">
+      <label for="cover-letter">Cover Letter:</label>
+      <textarea id="cover-letter" name="coverLetter" rows="4" placeholder="Write your cover letter here..." required></textarea>
+
+      <label for="resume">Upload Resume:</label>
+      <input type="file" id="resume" name="resume" accept=".pdf, .doc, .docx" required>
+
+      <button type="submit">Submit Application</button>
+    </form>
+
+    <!-- Loading Message -->
+    <div id="loading-message" style="display: none;">Submitting your application...</div>
+
+    <!-- Success/Error Message -->
+    <div id="response-message" style="display: none;">
+      <p id="message-text"></p>
+    </div>
+  </section>
+
+  <!-- Footer (Same as Home Page) -->
+  <footer>
+    <p>&copy; 2024 DreamHire Job Discovery Platform. All rights reserved.</p>
+  </footer>
+
+  <!-- JavaScript -->
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+  // Fetch job details when the page is loaded
+  const urlParams = new URLSearchParams(window.location.search);
+  const jobId = urlParams.get('jobId');
+
+  if (!jobId) {
+    document.getElementById('job-title').textContent = 'Invalid job ID.';
+    return;
+  }
+
+  // Fetch job details from the backend
+  fetch(`http://localhost:3000/api/jobs/${jobId}`)
+    .then(response => response.json())
+    .then(data => {
+      if (data.success && data.job) {
+        const job = data.job;
+        document.getElementById('job-title').textContent = job.title;
+        document.getElementById('job-company').textContent = job.company;
+        document.getElementById('job-location').textContent = job.location;
+        document.getElementById('job-salary').textContent = job.salary;
+        document.getElementById('job-description').textContent = job.description;
+      } else {
+        document.getElementById('job-title').textContent = 'Job not found';
+      }
+    })
+    .catch(error => {
+      console.error('Error fetching job details:', error);
+      document.getElementById('job-title').textContent = 'Failed to load job details';
+    });
+
+  // Handle form submission for job applications
+  const applicationForm = document.getElementById('application-form');
+  if (applicationForm) {
+    applicationForm.addEventListener('submit', function (event) {
+      event.preventDefault();
+
+      const coverLetter = document.getElementById('cover-letter').value;
+      const resume = document.getElementById('resume').files[0];
+
+      if (!coverLetter || !resume) {
+        alert('Please provide a cover letter and upload your resume.');
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append('coverLetter', coverLetter);
+      formData.append('resume', resume);
+
+      document.getElementById('loading-message').style.display = 'block';
+
+      fetch(`http://localhost:3000/api/jobs/${jobId}/apply`, {
+        method: 'POST',
+        body: formData,
+      })
+        .then(response => response.json())
+        .then(data => {
+          const messageElement = document.getElementById('response-message');
+          const messageText = document.getElementById('message-text');
+
+          if (data.success) {
+            messageText.textContent = 'Application submitted successfully!';
+            messageElement.style.display = 'block';
+            document.getElementById('application-form').reset();
+          } else {
+            messageText.textContent = data.message || 'Failed to submit application.';
+            messageElement.style.display = 'block';
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          document.getElementById('response-message').style.display = 'block';
+          document.getElementById('message-text').textContent = 'An error occurred, please try again.';
+        })
+        .finally(() => {
+          document.getElementById('loading-message').style.display = 'none';
+        });
+    });
+  }
+});
+
+</script>
+<!-- <script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // Fetch job details when the page is loaded
+    const urlParams = new URLSearchParams(window.location.search);
+    const jobId = urlParams.get('jobId'); // Get the jobId from the URL
+
+    if (!jobId) {
+      document.getElementById('job-title').textContent = 'Invalid job ID.';
+      return;
+    }
+
+    // Fetch job details from the backend
+    fetch(`http://localhost:3000/api/jobs/${jobId}`)
+      .then(response => response.json())
+      .then(data => {
+        if (data.success && data.job) {
+          const job = data.job;
+          // Populate the job details dynamically
+          document.getElementById('job-title').textContent = job.title;
+          document.getElementById('job-company').textContent = job.company;
+          document.getElementById('job-location').textContent = job.location;
+          document.getElementById('job-salary').textContent = job.salary;
+          document.getElementById('job-description').textContent = job.description;
+        } else {
+          document.getElementById('job-title').textContent = 'Job not found';
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching job details:', error);
+        document.getElementById('job-title').textContent = 'Failed to load job details';
+      });
+
+    // Handle form submission for job applications
+    const applicationForm = document.getElementById('application-form');
+    if (applicationForm) {
+      applicationForm.addEventListener('submit', function (event) {
+        event.preventDefault(); // Prevent the form from refreshing the page
+
+        const coverLetter = document.getElementById('cover-letter').value;
+        const resume = document.getElementById('resume').files[0];
+
+        if (!coverLetter || !resume) {
+          alert('Please provide a cover letter and upload your resume.');
+          return;
+        }
+
+        const formData = new FormData();
+        formData.append('coverLetter', coverLetter);
+        formData.append('resume', resume);
+
+        // Show loading message
+        document.getElementById('loading-message').style.display = 'block';
+        const token = localStorage.getItem('authToken'); // Assuming you store JWT token in localStorage
+        console.log('Extracted Job ID:', jobId);
+        fetch(`http://localhost:3000/api/jobs/${jobId}/apply`, { // Fixed API endpoint
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`, // Add the token here
+          },
+          body: formData,
+        })
+          .then(response => response.json())
+          .then(data => {
+            const messageElement = document.getElementById('response-message');
+            const messageText = document.getElementById('message-text');
+
+            if (data.success) {
+              messageText.textContent = 'Application submitted successfully!';
+              messageElement.style.display = 'block';
+              document.getElementById('application-form').reset(); // Clear form
+            } else {
+              messageText.textContent = data.message || 'Failed to submit application.';
+              messageElement.style.display = 'block';
+            }
+          })
+          .catch(error => {
+            console.error('Error:', error);
+            document.getElementById('response-message').style.display = 'block';
+            document.getElementById('message-text').textContent = 'An error occurred, please try again.';
+          })
+          .finally(() => {
+            document.getElementById('loading-message').style.display = 'none'; // Hide loading message
+          });
+      });
+    }
+  });
+</script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/jwt-decode/build/jwt-decode.min.js" defer></script> -->
+<!-- <script>
+document.addEventListener('DOMContentLoaded', function () {
+    const urlParams = new URLSearchParams(window.location.search);
+    const jobId = urlParams.get('jobId');
+
+    if (!jobId) {
+        document.getElementById('job-title').textContent = 'Invalid job ID.';
+        return;
+    }
+
+    // Fetch job details from backend
+    fetch(`http://localhost:3000/api/jobs/${jobId}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success && data.job) {
+                const job = data.job;
+                document.getElementById('job-title').textContent = job.title;
+                document.getElementById('job-company').textContent = job.company;
+                document.getElementById('job-location').textContent = job.location;
+                document.getElementById('job-salary').textContent = job.salary;
+                document.getElementById('job-description').textContent = job.description;
+            } else {
+                document.getElementById('job-title').textContent = 'Job not found';
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching job details:', error);
+            document.getElementById('job-title').textContent = 'Failed to load job details';
+        });
+
+    // Handle job application submission
+    const applicationForm = document.getElementById('application-form');
+    if (applicationForm) {
+        applicationForm.addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent page refresh
+
+            const coverLetter = document.getElementById('cover-letter').value;
+            const resume = document.getElementById('resume').files[0];
+
+            if (!coverLetter || !resume) {
+                alert('Please provide a cover letter and upload your resume.');
+                return;
+            }
+
+            const token = localStorage.getItem('authToken');
+
+            if (!token) {
+                // Store the job page URL before redirecting
+                localStorage.setItem('redirectAfterLogin', window.location.href);
+                alert('You need to log in to apply for jobs.');
+                window.location.href = 'login.html'; // Redirect to login
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('coverLetter', coverLetter);
+            formData.append('resume', resume);
+
+            // Show loading message
+            document.getElementById('loading-message').style.display = 'block';
+
+            fetch(`http://localhost:3000/api/jobs/${jobId}/apply`, {
+                method: 'POST',
+                headers: { 'Authorization': `Bearer ${token}` },
+                body: formData,
+            })
+                .then(response => response.json())
+                .then(data => {
+                    const messageElement = document.getElementById('response-message');
+                    const messageText = document.getElementById('message-text');
+
+                    if (data.success) {
+                        messageText.textContent = 'Application submitted successfully!';
+                        messageElement.style.display = 'block';
+                        document.getElementById('application-form').reset(); // Clear form
+                        setTimeout(() => { messageElement.style.display = 'none'; }, 5000);
+                    } else {
+                        messageText.textContent = data.message || 'Failed to submit application.';
+                        messageElement.style.display = 'block';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    document.getElementById('response-message').style.display = 'block';
+                    document.getElementById('message-text').textContent = 'An error occurred, please try again.';
+                })
+                .finally(() => {
+                    document.getElementById('loading-message').style.display = 'none'; // Hide loading message
+                });
+        });
+    }
+});
+
+// Check if user was redirected after login and send them back to job page
+document.addEventListener('DOMContentLoaded', function () {
+    const redirectAfterLogin = localStorage.getItem('redirectAfterLogin');
+    if (redirectAfterLogin) {
+        localStorage.removeItem('redirectAfterLogin'); // Clear stored redirect
+        window.location.href = redirectAfterLogin; // Redirect back to job details page
+    }
+});
+</script> -->
+<!-- <script src="script.js" defer></script> -->
+</body>
+</html>

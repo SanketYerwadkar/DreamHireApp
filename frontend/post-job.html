@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Post Job - DreamHire</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/jwt-decode/build/jwt-decode.min.js" defer></script>
+</head>
+
+<body>
+  <!-- Header -->
+  <header>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <nav>
+      <div class="logo">
+        <img src="images/DreamHIrelogo.png" alt="DreamHire Logo" class="logo-img" />
+      </div>
+      
+      <diV style="background: url('images/55448.png') no-repeat center center/cover; border-radius: 10px;">
+        <ul class="nav-links" id="nav-links">
+          <!-- Navigation Links with Icons -->
+          <li><a href="index.html" class="active"><i class="fas fa-home"></i> Home</a></li>
+          <li><a href="job-search.html"><i class="fas fa-briefcase"></i> Job Search</a></li>
+          <li><a href="view-applications.html"><i class="fas fa-file-alt"></i> View Applications</a></li>
+        </ul>
+        
+    </diV>
+    </nav>
+  </header>
+
+  <!-- Job Posting Form -->
+  <section class="post-job-section">
+    <h2>Post a New Job</h2>
+    <form id="post-job-form">
+      <label for="title">Job Title:</label>
+      <input type="text" id="title" name="title" placeholder="Enter job title" required>
+
+      <label for="company">Company Name:</label>
+      <input type="text" id="company" name="company" placeholder="Enter company name" required>
+
+      <label for="location">Location:</label>
+      <input type="text" id="location" name="location" placeholder="Enter job location" required>
+
+      <label for="salary">Salary Range:</label>
+      <input type="text" id="salary" name="salary" placeholder="Enter salary range" required>
+
+      <label for="type">Job Type:</label>
+      <select id="type" name="type" required>
+        <option value="">Select Job Type</option>
+        <option value="Full-Time">Full-Time</option>
+        <option value="Part-Time">Part-Time</option>
+        <option value="Remote">Remote</option>
+        <option value="Internship">Internship</option>
+      </select>
+
+      <label for="description">Job Description:</label>
+      <textarea id="description" name="description" rows="5" placeholder="Enter job description" required></textarea>
+
+      <button type="submit">Post Job</button>
+    </form>
+
+    <div id="response-message" style="display: none;">
+      <p id="message-text"></p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2024 DreamHire Job Discovery Platform. All rights reserved.</p>
+  </footer>
+
+  <!-- JavaScript -->
+<script>
+// document.getElementById('post-job-form').addEventListener('submit', async function (event) {
+//   event.preventDefault();
+
+//   const token = localStorage.getItem('token');
+//   if (!token) {
+//     alert('You must be logged in to post a job.');
+//     return;
+//   }
+
+//   let decodedToken;
+//   try {
+//     decodedToken = jwt_decode(token);
+//   } catch (error) {
+//     console.error("Invalid token:", error);
+//     alert("Invalid authentication. Please log in again.");
+//     return;
+//   }
+
+//   if (!decodedToken.id || decodedToken.role !== 'employer') {
+//     alert('You must be an employer to post a job.');
+//     return;
+//   }
+
+//   // Validate form fields before submitting
+//   const title = document.getElementById('title').value.trim();
+//   const company = document.getElementById('company').value.trim();
+//   const location = document.getElementById('location').value.trim();
+//   const salary = document.getElementById('salary').value.trim();
+//   const description = document.getElementById('description').value.trim();
+//   const type = document.getElementById('type').value;
+
+//   if (!title || !company || !location || !salary || !description || !type) {
+//     alert('Please fill in all fields before submitting.');
+//     return;
+//   }
+
+//   const jobData = {
+//     title,
+//     company,
+//     location,
+//     salary,
+//     description,
+//     type,
+//     employerId: decodedToken.id, // ✅ Ensure employerId is passed
+//   };
+
+//   console.log("Sending Job Data:", jobData); // Debugging: Check request data
+
+//   try {
+//     const response = await fetch('http://localhost:3000/api/jobs/post', {
+//       method: 'POST',
+//       headers: {
+//         'Content-Type': 'application/json',
+//         'Authorization': `Bearer ${token}`
+//       },
+//       body: JSON.stringify(jobData),
+//     });
+
+//     const data = await response.json();
+//     const messageElement = document.getElementById('response-message');
+//     const messageText = document.getElementById('message-text');
+
+//     if (response.ok && data.success) {
+//       messageText.textContent = 'Job posted successfully!';
+//       messageElement.style.display = 'block';
+//       document.getElementById('post-job-form').reset();
+//     } else {
+//       messageText.textContent = data.message || 'Failed to post job.';
+//       messageElement.style.display = 'block';
+//     }
+//   } catch (error) {
+//     console.error('Error:', error);
+//     alert('An error occurred while posting the job.');
+//   }
+// });
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    checkEmployerStatus();
+});
+
+// Function to check if the user is logged in and if they are an employer
+async function checkEmployerStatus() {
+      const token = localStorage.getItem('token');
+
+      // Step 1: Check if token exists
+      if (!token) {
+        alert('You must be logged in to post a job.');
+        window.location.href = 'login.html'; // Redirect to login page
+        return;
+      }
+
+      let decodedToken;
+      try {
+        decodedToken = jwt_decode(token); // Try decoding the token
+        console.log("Decoded Token:", decodedToken);
+      } catch (error) {
+        alert('Session expired. Please log in again.');
+        localStorage.removeItem('token'); // Remove invalid token
+        window.location.href = 'login.html'; // Redirect to login
+        return;
+      }
+
+      // Step 2: Check if the user is an employer
+      if (!decodedToken.id || decodedToken.role !== 'employer') {
+        alert('You must be an employer to post a job.');
+        window.location.href = 'index.html'; // Redirect non-employers to the home page
+        return;
+      }
+    }
+
+    // Function to handle job posting form submission
+    async function postJob(event) {
+      event.preventDefault();
+
+      const token = localStorage.getItem('token');
+      if (!token) {
+        alert('You must be logged in to post a job.');
+        window.location.href = 'login.html'; // Redirect to login page
+        return;
+      }
+
+      let decodedToken;
+      try {
+        decodedToken = jwt_decode(token); // Decode the token
+        console.log("Decoded Token:", decodedToken);
+      } catch (error) {
+        alert('Invalid token. Please log in again.');
+        localStorage.removeItem('token');
+        window.location.href = 'login.html'; // Redirect to login
+        return;
+      }
+
+      if (!decodedToken.id || decodedToken.role !== 'employer') {
+        alert('You must be an employer to post a job.');
+        window.location.href = 'index.html'; // Redirect non-employers to home page
+        return;
+      }
+
+      const jobData = {
+        title: document.getElementById('title').value,
+        company: document.getElementById('company').value,
+        location: document.getElementById('location').value,
+        salary: document.getElementById('salary').value,
+        type: document.getElementById('type').value,
+        description: document.getElementById('description').value,
+        employerId: decodedToken.id,
+      };
+
+      try {
+        document.getElementById("response-message").innerHTML = "Posting job...";
+
+        const response = await fetch('http://localhost:3000/api/jobs/post', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify(jobData),
+        });
+
+        const data = await response.json();
+        const messageElement = document.getElementById('response-message');
+        messageElement.style.display = 'block';
+
+        if (response.ok) {
+          messageElement.innerHTML = 'Job posted successfully!';
+          document.getElementById('post-job-form').reset();
+        } else {
+          messageElement.innerHTML = data.message || 'Failed to post job.';
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred while posting the job.');
+      }
+    }
+
+    // Check employer status when the page loads
+    document.addEventListener('DOMContentLoaded', checkEmployerStatus);
+
+    // Attach the form submission event listener
+    document.getElementById('post-job-form').addEventListener('submit', postJob);
+
+</script>
+</body>
+
+</html>
